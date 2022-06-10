@@ -8,49 +8,49 @@
  */
 
 if (!defined('_PS_VERSION_'))
-	exit;
+    exit;
 
 class seigimobycustom extends Module {
 
-	protected $_html = '';
-	protected $_postErrors = array();
+    protected $_html = '';
+    protected $_postErrors = array();
 
 
     public function __construct() {
-		$this->name = 'seigimobycustom';
-		$this->version = '1.0.0';
-		$this->tab = 'frontend';
-		$this->bootstrap = true;
+        $this->name = 'seigimobycustom';
+        $this->version = '1.0.0';
+        $this->tab = 'frontend';
+        $this->bootstrap = true;
 
-		$this->author = 'SEIGI Grzegorz Zawadzki';
-		$this->ps_versions_compliancy = array('min' => '1.5', 'max' => '1.7');
+        $this->author = 'SEIGI Grzegorz Zawadzki';
+        $this->ps_versions_compliancy = array('min' => '1.5', 'max' => '1.7');
 
-		parent::__construct();
+        parent::__construct();
 
-		$this->displayName = $this->l('MobyDick Custom');
-		$this->description = $this->l('Moduł zawiera dodatkowe funkcje, które pozwolą wpłynąć na końcowy efekt produktu');
-	}
+        $this->displayName = $this->l('MobyDick Custom');
+        $this->description = $this->l('Moduł zawiera dodatkowe funkcje, które pozwolą wpłynąć na końcowy efekt produktu');
+    }
 
-	public function install() {
-		if (!parent::install()
-			|| !$this->registerHook('mobyDickProductBeforeSave')
-			|| !$this->registerHook('mobyDickProductInit')
-			|| !$this->registerHook('mobyDickCombinationBeforeSave')
-			|| !Configuration::updateValue('MOBY_DICK_CUST_MULTI', '0.95')
-		)
-			return false;
-		return true;
-		return parent::install();
-	}
+    public function install() {
+        if (!parent::install()
+            || !$this->registerHook('mobyDickProductBeforeSave')
+            || !$this->registerHook('mobyDickProductInit')
+            || !$this->registerHook('mobyDickCombinationBeforeSave')
+            || !Configuration::updateValue('MOBY_DICK_CUST_MULTI', '0.95')
+        )
+            return false;
+        return true;
+        return parent::install();
+    }
 
-	public function uninstall() {
-		if (!Configuration::deleteByName('MOBY_DICK_CUST_MULTI')
-				|| !parent::uninstall())
-			return false;
-		return true;
-	}
+    public function uninstall() {
+        if (!Configuration::deleteByName('MOBY_DICK_CUST_MULTI')
+                || !parent::uninstall())
+            return false;
+        return true;
+    }
 
-	public function getContent() {
+    public function getContent() {
 
         if(Tools::isSubmit('MOBY_DICK_CUST_MULTI')){
             Configuration::updateValue('MOBY_DICK_CUST_MULTI', Tools::getValue('MOBY_DICK_CUST_MULTI'));
@@ -82,9 +82,9 @@ class seigimobycustom extends Module {
             ],
         ];
         return $helper->generateForm($form);
-	}
+    }
 
-	public function hookMobyDickProductBeforeSave($params){
+    public function hookMobyDickProductBeforeSave($params){
         $product = $params['product'];
         $settings = $params['settings'];
         if(strtolower($params['wholesaler']) === 'spectrumled') {
@@ -95,7 +95,7 @@ class seigimobycustom extends Module {
             if($settings['UPDATE_DESC'])
                 $product->description .= 'Ten Produkt został zaimportowany przez moduł <a href="https://seigi.eu/modul-prestashop/seigimobydick.html">MobyDick</a>';
         }
-	}
+    }
     public function hookMobyDickCombinationBeforeSave($params){
         $product = $params['product'];
         $settings = $params['settings'];
